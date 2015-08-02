@@ -11,6 +11,7 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def distance
-    object.location.distance_to([options[:latitude], options[:longitude]])
+    a = object.location.distance_to([options[:latitude], options[:longitude]])
+    "#{(a*1000).round(2)} mts"
   end
 end
