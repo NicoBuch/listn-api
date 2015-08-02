@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
   def update
     user = User.find_by_spotify_id(params[:spotify_id])
     if user.nil?
-      User.create!(params[:spotify_id])
+      User.create!(spotify_id: params[:spotify_id])
       track = Track.create!(user: user)
       location = Loaction.create!(latitude: params[:latitude], longitude: params[:longitude], user: user)
     else
