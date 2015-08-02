@@ -5,10 +5,9 @@ class Api::V1::UsersController < ApplicationController
   def index
     user = User.find_by_spotify_id(params[:spotify_id])
     return render json: {}, status: :not_found if user.nil?
-    # users = User.within(DEFAULT_DISTANCE, origin: [user.location.latitude, user.location.longitude]).all
-    #             .where.not(id: user.id)
-    users = User.where.not(id: user.id)
-    render json: users, latitude: user.location.latitude, longitude: user.location.longitude
+    locations = Location.within(DEFAULT_DISTANCE, origin: [user.location.latitude, user.location.longitude]).all
+    users = User.where(id: locations.pluck(:user_id)).where.not(id: user.id)
+    render json: users, latitude: user.location.latitude, longitude: user.location.longitude, root: false
   end
 
   def update
@@ -18,15 +17,19 @@ class Api::V1::UsersController < ApplicationController
       track = Track.create!(user: user, spotify_id: nil)
       location = Location.create!(latitude: params[:latitude], longitude: params[:longitude], user: user)
     else
-      if user.track.nil?
-        user.track = Track.create!(track_params)
-      elsif track_params[:spotify_id] != user.track.spotify_id
-        user.track.update!(track_params)
+      if params[:track].present?
+        if user.track.nil?
+          user.track = Track.create!(track_params)
+        elsif track_params[:spotify_id] != user.track.spotify_id
+          user.track.update!(track_params)
+        end
       end
-      if user.location.nil?
-        user.location = Location.create!(longitude: params[:longitude], latitude: params[:latitude])
-      else
-        user.location.update!(longitude: params[:longitude], latitude: params[:latitude])
+      if params[:latitude].to_s != "0.0"
+        if user.location.nil?
+          user.location = Location.create!(longitude: params[:longitude], latitude: params[:latitude])
+        else
+          user.location.update!(longitude: params[:longitude], latitude: params[:latitude])
+        end
       end
     end
     render json: {}, status: :ok

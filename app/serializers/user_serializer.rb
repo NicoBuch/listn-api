@@ -1,4 +1,4 @@
-class UsersSerializer < ActiveModel::Serializer
+class UserSerializer < ActiveModel::Serializer
   attributes :id, :spotify_id, :latitude, :longitude, :likes, :distance
   has_one :track
 
@@ -11,6 +11,6 @@ class UsersSerializer < ActiveModel::Serializer
   end
 
   def distance
-    location.distance_to([options[:latitude], options[:longitude]])
+    object.location.distance_to([options[:latitude], options[:longitude]])
   end
 end

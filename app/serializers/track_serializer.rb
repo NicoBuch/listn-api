@@ -1,4 +1,4 @@
-class TracksSerializer < ActiveModel::Serializer
+class TrackSerializer < ActiveModel::Serializer
   attributes :id, :name, :artist, :playing
 
   def id
