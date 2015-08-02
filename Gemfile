@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 ruby '2.2.0'
 
+gem 'versionist'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 
@@ -68,6 +70,9 @@ gem 'pundit'
 
 # Exceptions Report
 gem 'airbrake'
+
+#GeoLocation
+gem 'geokit-rails'
 
 group :development do
   gem 'better_errors'

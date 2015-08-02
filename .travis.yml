@@ -18,9 +18,9 @@ services:
 
 before_script:
   - cp config/database.travis.yml config/database.yml
-  - psql -c "CREATE USER rails-bootstrap WITH PASSWORD 'rails-bootstrap';" -U postgres
-  - psql -c "DROP DATABASE IF EXISTS rails-bootstrap_test;" -U postgres
-  - psql -c "CREATE DATABASE rails-bootstrap_test ENCODING 'utf8';" -U postgres
+  - psql -c "CREATE USER listn_api WITH PASSWORD 'listn_api';" -U postgres
+  - psql -c "DROP DATABASE IF EXISTS listn_api_test;" -U postgres
+  - psql -c "CREATE DATABASE listn_api_test ENCODING 'utf8';" -U postgres
   - bundle exec rake db:migrate test:prepare
 
 script:
@@ -31,7 +31,7 @@ script:
 notifications:
   email:
     recipients:
-      - rails-bootstrap-dev@wolox.com.ar
+      - listn_api-dev@wolox.com.ar
 
 cache:
   bundler: true
